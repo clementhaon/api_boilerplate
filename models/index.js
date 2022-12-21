@@ -6,7 +6,7 @@ dotenv.config({ silent: true });
 const dt = Sequelize.DataTypes;
 
 const sequelize = new Sequelize(
-    `${process.env.DB_NAME}`, `${process.env.DB_USERNAME}`, `${process.env.DB_PASS}`,
+    `${process.env.DB_NAME}`, `${process.env.DB_USERNAME}`, `${process.env.DB_PASSWORD}`,
     {
         dialect: 'mysql',
         logging: false
