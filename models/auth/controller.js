@@ -1,14 +1,15 @@
 import express from "express";
 import models from "../index.js";
+import jsonwebtoken from "jsonwebtoken";
 const app = express.Router();
+import dotenv from 'dotenv'
+dotenv.config({ silent: true });
 
 
 const register = async (req, res) => {
 
 
     try {
-        console.log("la")
-        console.log(req.body)
 
         //Check entry
         if (!req.body) throw new Error("missing params");
@@ -20,9 +21,7 @@ const register = async (req, res) => {
         if (!req.body.cgu) throw new Error("missing params");
         if (!req.body.privacyPolicy) throw new Error("missing params");
 
-        console.log(0);
         const userExists = await models.user.findOne({ where: { email: req.body.email } });
-        console.log(1)
 
         if (userExists) throw new Error('user already exist');
 
@@ -36,18 +35,14 @@ const register = async (req, res) => {
             privacyPolicy: req.body.privacyPolicy,
         });
         if (!userCreate) throw new Error ("Error in creation user");
-        console.log(2)
         try {
             //Launch function login in model user
             await userCreate.login();
-            console.log(3)
             //Save the login
             await userCreate.save();
         } catch (err) {
-            console.log("generating token failed : ", err);
             throw new Error("genreate token failed")
         }
-        console.log(4)
 
         const responseGenric = await userCreate.toAuthJSON();
 
@@ -63,6 +58,88 @@ const register = async (req, res) => {
 
 }
 
+const login = async (req, res) => {
+
+
+    try {
+        //Check entry
+        if (!req.body) throw new Error("missing params");
+        if (!req.body.email) throw new Error("missing params");
+        if (!req.body.password) throw new Error("missing params");
+
+        const userExists = await models.user.scope("all").findOne({ where: { email: req.body.email } });
+
+        if (!userExists) throw new Error('user not found');
+
+        try {
+            //Launch function validate password in model user
+            const validatePass = await userExists.validatePassword(req.body.password);
+            if (!validatePass) throw new Error();
+        } catch (err) {
+            throw new Error("invalid password")
+        }
+
+        try {
+            //Launch function login in model user
+            await userExists.login();
+            //Save the login
+            await userExists.save();
+        } catch (err) {
+            throw new Error("genreate token failed")
+        }
+
+        const responseGenric = await userExists.toAuthJSON();
+
+        return res.status(200).json(responseGenric);
+    
+    } catch (err) {
+        console.log(err)
+
+        return res.status(500).send({success:false, message: err?.message ? err?.message : ""});
+
+    }
+}
+
+const refresh = async (req, res) => {
+
+
+    try {
+        //Check entry
+        if (!req.body) throw new Error("missing params");
+        if (!req.body.refreshToken) throw new Error("missing params");
+        const refreshToken = req.body.refreshToken;
+        const payload = jsonwebtoken.verify(refreshToken, process.env.REFRESH_TOKEN);
+        console.log(payload)
+        if (!payload) throw new Error("Refresh token invalid");
+        const refreshSignature = refreshToken.split(".")[2];
+
+        const getUser = await models.user.scope("all").findOne({ where: { refreshTokenSignature: refreshSignature } });
+
+        if(!getUser) throw new Error("Signature invalid");
+
+        try {
+            //Launch function login in model user
+            await getUser.login();
+            //Save the login
+            await getUser.save();
+        } catch (err) {
+            throw new Error("genreate token failed")
+        }
+
+        const responseGenric = await getUser.toAuthJSON();
+
+        return res.status(200).json(responseGenric);
+    
+    } catch (err) {
+        console.log(err)
+
+        return res.status(500).send({success:false, message: err?.message ? err?.message : ""});
+
+    }
+}
+
 app.post('/register', register);
+app.post('/login', login);
+app.post('/refresh_token', refresh)
 
 export default app;
