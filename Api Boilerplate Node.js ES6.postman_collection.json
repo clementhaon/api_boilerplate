@@ -4,5 +4,96 @@
 		"name": "Api Boilerplate Node.js ES6",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"item": []
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test2@hotmail.com\",\r\n    \"password\": \"test1234\",\r\n    \"firstName\": \"test\",\r\n    \"lastName\": \"tese\",\r\n    \"birthDate\": \"11-01-1991\",\r\n    \"cgu\": true,\r\n    \"privacyPolicy\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://fe6e4d8.online-server.cloud/auth/register",
+					"protocol": "https",
+					"host": [
+						"fe6e4d8",
+						"online-server",
+						"cloud"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@hotmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://fe6e4d8.online-server.cloud/auth/login",
+					"protocol": "https",
+					"host": [
+						"fe6e4d8",
+						"online-server",
+						"cloud"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAaG90bWFpbC5jb20iLCJpZCI6MSwiaWF0IjoxNjcxNjM5NDI2LCJleHAiOjE2NzY4MjM0MjZ9.909MMfWcd-CWRt1UDQIbz8-Yk9mgV4NgfjXGEMXvQP4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://fe6e4d8.online-server.cloud/auth/refresh_token",
+					"protocol": "https",
+					"host": [
+						"fe6e4d8",
+						"online-server",
+						"cloud"
+					],
+					"path": [
+						"auth",
+						"refresh_token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }
