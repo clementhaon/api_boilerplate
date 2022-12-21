@@ -1,13 +1,16 @@
-const Sequelize = require("sequelize");
-const config = require('../app/config').getConfig();
-const db = config.database;
-
-const user = require("./users/model");
-
+import Sequelize from "sequelize";
+import * as db from "../app/config/index.js";
+import user from "./users/model.js";
+import dotenv from 'dotenv'
+dotenv.config({ silent: true });
+const dt = Sequelize.DataTypes;
 
 const sequelize = new Sequelize(
-    `mysql://${db.username}:${db.password}@${db.host}:${db.port}/${db.name}`,
-    {logging: false}
+    `${process.env.DB_NAME}`, `${process.env.DB_USERNAME}`, `${process.env.DB_PASS}`,
+    {
+        dialect: 'mysql',
+        logging: false
+    }
 );
 
 sequelize
@@ -24,11 +27,12 @@ const models = {
     user: user(sequelize, dt),
 };
 
-Object.keys(models).forEach((modelName) => {
+//TODO uncomment when add table relation
+/*Object.keys(models).forEach((modelName) => {
     if(models[modelName].associate) {
         models[modelName].associate(models);
     }
-});
+});*/
 
 models.sequelize = sequelize;
 models.Sequelize = Sequelize;
@@ -41,4 +45,4 @@ sequelize.sync({force}).then((e) => {
     );
 });
 
-module.exports = models;
+export default models;

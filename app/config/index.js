@@ -12,10 +12,10 @@ const index = {
         refreshTokenKey,
         database: {
             username: "root",
-            password: "password",
+            password: process.env.DB_PASS_LOCAL,
             name: "boilerplate",
             host: "localhost",
-            port: 3306,
+            dialect: "mysql"
         },
         notification: {
             port: 8001
@@ -39,8 +39,7 @@ const index = {
     }
 };
 
-const getConfig = () => {
+export function getConfig() {
     return index[env];
 };
 
-export default { getConfig };

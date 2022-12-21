@@ -1,31 +1,29 @@
-require('dotenv').config();
+import dotenv from 'dotenv'
+dotenv.config({ silent: true });
 import http from 'http';
-const middlewares = require('./app/core/middlewares');
+import middlewares from './app/core/middlewares.js';
 import express from 'express';
 import cors from 'cors';
+import Router from './models/router.js';
 const PORT = process.env.port || 5000;
-const Router = require('./models/router');
 
 
-const jsonErrorHandler = async (err, req, res) => {
-    let content = {};
-    err.message ? (content.message = err.message) : "";
-    err.status ? (content.status = err.status) : "";
-    Object.values(content).length > 0 ? "" : (content = err);
-    res.status(err.status ? err.status : 500).send(content);
-};
 
 const app = express();
 
-app.use('*', cors);
+app.use('*', cors());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(middlewares.cors);
-app.use('/api', Router);
-app.use(jsonErrorHandler);
+app.use('/', Router);
 
 
 const httpServer = http.createServer(app);
 httpServer.listen(PORT, () => 
-    console.log(`http server listening on port${PORT}`)
+    console.log(`http server listening on port ${PORT}`)
 );
+
+
+app.get("/test", (req, res) => {
+    res.status(200).send('Hello World');
+});
