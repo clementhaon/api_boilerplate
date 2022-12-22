@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test2@hotmail.com\",\r\n    \"password\": \"test1234\",\r\n    \"firstName\": \"test\",\r\n    \"lastName\": \"tese\",\r\n    \"birthDate\": \"11-01-1991\",\r\n    \"cgu\": true,\r\n    \"privacyPolicy\": true\r\n}",
+					"raw": "{\r\n    \"email\": \"test2@hotmail.com\",\r\n    \"password\": \"test1234\",\r\n    \"pseudo\": \"testpseudo\",\r\n    \"gender\": \"men\",\r\n    \"birthday\": \"11-01-1991\",\r\n    \"validCGU\": true,\r\n    \"validPrivacyPolicy\": true,\r\n    \"nationality\": \"french\",\r\n    \"profilePictureUrl\": \"https://images.pcastuces.com/adj/3478-1.png\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -42,7 +42,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test@hotmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+					"raw": "{\r\n    \"email\": \"test2@hotmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
