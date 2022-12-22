@@ -15,11 +15,10 @@ const register = async (req, res) => {
         if (!req.body) throw new Error("missing params");
         if (!req.body.email) throw new Error("missing params");
         if (!req.body.password) throw new Error("missing params");
-        if (!req.body.firstName) throw new Error("missing params");
-        if (!req.body.lastName) throw new Error("missing params");
-        if (!req.body.birthDate) throw new Error("missing params");
-        if (!req.body.cgu) throw new Error("missing params");
-        if (!req.body.privacyPolicy) throw new Error("missing params");
+        if (!req.body.pseudo) throw new Error("missing params");
+        if (!req.body.birthday) throw new Error("missing params");
+        if (!req.body.validCGU) throw new Error("missing params");
+        if (!req.body.validPrivacyPolicy) throw new Error("missing params");
 
         const userExists = await models.user.findOne({ where: { email: req.body.email } });
 
@@ -28,11 +27,13 @@ const register = async (req, res) => {
         const userCreate = await models.user.create({
             email: req.body.email,
             password: req.body.password,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            birthDate: req.body.birthDate,
-            cgu: req.body.cgu,
-            privacyPolicy: req.body.privacyPolicy,
+            pseudo: req.body.pseudo,
+            birthday: req.body.birthday,
+            validCGU: req.body.validCGU,
+            validPrivacyPolicy: req.body.validPrivacyPolicy,
+            gender: req.body.gender,
+            nationality: req.body.nationality,
+            profilePictureUrl: req.body.profilePictureUrl
         });
         if (!userCreate) throw new Error ("Error in creation user");
         try {

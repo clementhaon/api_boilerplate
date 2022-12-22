@@ -30,8 +30,8 @@ export default (sequelize, DataTypes) => {
             refreshToken: { type: DataTypes.TEXT },
             refreshTokenSignature: { type: DataTypes.TEXT },
 
-            cgu: { type: DataTypes.BOOLEAN, required: true },
-            privacyPolicy: {type: DataTypes.BOOLEAN, required: true},
+            validCGU: { type: DataTypes.BOOLEAN, required: true },
+            validPrivacyPolicy: {type: DataTypes.BOOLEAN, required: true},
 
             //For recovery password
             linkRandom: {type: DataTypes.TEXT, allowNull: true},
@@ -39,9 +39,12 @@ export default (sequelize, DataTypes) => {
 
 
             //Optional
-            lastName: { type: DataTypes.STRING, allowNull: true },
-            firstName: { type: DataTypes.STRING, allowNull: true },
-            birthDate: { type: DataTypes.TEXT, allowNull: true },
+            pseudo: { type: DataTypes.STRING, allowNull: true },
+            gender: { type: DataTypes.STRING, allowNull: true },
+            nationality: { type: DataTypes.STRING, allowNull: true },
+            birthday: { type: DataTypes.TEXT, allowNull: true },
+            profilePictureUrl: { type: DataTypes.TEXT, allowNull: true },
+
         },
         {
             defaultScope: {
@@ -50,7 +53,7 @@ export default (sequelize, DataTypes) => {
                         "password",
                         "salt",
                         "tokenSignature",
-                        "refreshTokenSignature",
+                        "refreshTokenSignature"
                     ],
                 },
             },
@@ -92,20 +95,21 @@ export default (sequelize, DataTypes) => {
     };
     //Return the response in json with all information necessary
     user.prototype.toAuthJSON = function () {
-        if (this.linkConfirmationEmail === null || this.linkConfirmationEmail === "") {
-            var emailConfirmation = true;
+        /*if (this.linkConfirmationEmail === null || this.linkConfirmationEmail === "") {
+            var validEmail = true;
         } else {
-            var emailConfirmation = false;
-        }
+            var validEmail = false;
+        }*/
         return {
             id: this.id,
             email: this.email,
             token: this.token,
             refreshToken: this.refreshToken,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            birthDate: this.birthDate,
-            emailConfirmation : emailConfirmation,
+            pseudo: this.pseudo,
+            nationality: this.nationality,
+            birthday: this.birthday,
+            profilePictureUrl: this.profilePictureUrl,
+            validEmail : false,
 
         };
     };
