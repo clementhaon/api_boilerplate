@@ -1,6 +1,5 @@
 import express from "express";
 import jsonwebtoken from "jsonwebtoken";
-import models from "../index";
 const app = express.Router();
 
 
