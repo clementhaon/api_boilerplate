@@ -6,8 +6,7 @@ const create = () => {
 		.setName('server')
 		.setDescription(
 			'Replys with a small amount of information about this server!'
-		)
-		.setDMPermission(false);
+		);
 
 	return command.toJSON();
 };
