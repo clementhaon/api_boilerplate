@@ -2,14 +2,15 @@ import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
+    console.log('create serveur')
 	const command = new SlashCommandBuilder()
 		.setName('server')
-		.setDescription(
-			'Replys with a small amount of information about this server!'
-		);
+		.setDescription('Replys with a small amount of information about this server!');
 
 	return command.toJSON();
 };
+
+
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
