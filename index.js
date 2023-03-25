@@ -4,7 +4,7 @@ import http from 'http';
 import middlewares from './app/core/middlewares.js';
 import express from 'express';
 import cors from 'cors';
-import Router from './models/router.js';
+//import Router from './models/router.js';
 import { Client, GatewayIntentBits } from 'discord.js';
 import fs from "node:fs";
 import { sendMessageAfterConnection } from './discord/connection.js';
@@ -20,7 +20,7 @@ app.use('*', cors());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(middlewares.cors);
-app.use('/', Router);
+//app.use('/', Router);
 
 
 const httpServer = http.createServer(app);
