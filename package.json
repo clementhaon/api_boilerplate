@@ -31,6 +31,6 @@
   },
   "imports": {
     "#events/*": "./events/*",
-    "#commands/*": "./events/commands/*.js"
+    "#commands/*": "./events/commands/*.cjs"
   }
 }

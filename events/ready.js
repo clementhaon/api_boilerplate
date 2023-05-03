@@ -13,10 +13,13 @@ async function invoke(client) {
 
 	for (let command of commands) {
 		const commandFile = await import(`#commands/${command}`);
+		console.log(commandFile.create())
 		commandsArray.push(commandFile.create());
 	}
 
 	const adddCommand = await client.application.commands.set(commandsArray);
+
+	console.log(adddCommand)
 
 	console.log(`Successfully logged in as ${client.user.tag}!`);
 }

@@ -1,26 +1,50 @@
-import { ApplicationCommandType, ContextMenuCommandBuilder } from 'discord.js';
+const Discord = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, ComponentType } = Discord;
+const TextInputStyles = Discord.ApplicationCommandOptionType;
 
-// Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
-	const command = new ContextMenuCommandBuilder()
-        .setName('menu')
-        .setType(ApplicationCommandType.User);
+	const command = new SlashCommandBuilder()
+		.setName('menu')
+		.setDescription('Open a modal to fill');
 
 	return command.toJSON();
-    
 };
 
-// Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = async (interaction) => {
-	client.on(Events.InteractionCreate, interaction => {
-        if (!interaction.isUserContextMenuCommand()) return;
-        console.log(interaction);
-    });
+	const modal = new ModalBuilder()
+		.setTitle('Fill the fields')
+		.setCustomId('my-modal-id');
 
-	// Reply with a confirmation
-	interaction.reply({
-		content: `I deleted ${deletedMessages} messages for you!`,
+	const firstTextInput = new TextInputBuilder()
+		.setCustomId('first-text-input')
+		.setPlaceholder('Enter first text here')
+		.setMaxLength(50)
+		.setMinLength(5)
+		.setLabel('First Text Input')
+		.setStyle(TextInputStyles.SHORT);
+
+	const secondTextInput = new TextInputBuilder()
+		.setCustomId('second-text-input')
+		.setPlaceholder('Enter second text here')
+		.setMaxLength(200)
+		.setMinLength(5)
+		.setLabel('Second Text Input')
+		.setStyle(TextInputStyles.LONG);
+
+	const firstActionRow = new ModalActionRowBuilder()
+		.addComponents(firstTextInput)
+		.setCustomId('first-action-row');
+
+	const secondActionRow = new ModalActionRowBuilder()
+		.addComponents(secondTextInput)
+		.setCustomId('second-action-row');
+
+	modal.addComponents(firstActionRow, secondActionRow);
+
+	await interaction.reply({
+		content: 'Opening modal ...',
 		ephemeral: true,
+		components: modal,
 	});
 };
 
